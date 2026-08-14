@@ -1,0 +1,35 @@
+@startuml Admin
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Charge Vente" as Admin
+
+rectangle "Store Manager" {
+  
+
+  usecase "Se Connecter" as log
+  usecase "Valider un vente" as valVT
+  usecase "lister vente" as listVT
+  usecase "Rembourser" as remb
+  usecase "listerDette" as listDet
+  usecase "voir Ligne" as vrL
+  usecase "voir Paiement" as vrP
+  usecase "voir Article" as vrA
+  
+ 
+
+  Admin --> valVT
+  Admin --> listVT
+  valVT ..> log:<<include>>
+  listVT ..> log:<<include>>
+  listVT <.. vrL:<<extend>>
+  Admin --> remb
+  remb ..> log:<<include>>
+  remb ..> listDet:<<include>>
+  listDet <.. vrP:<<extend>>
+  listDet <.. vrA:<<extend>>
+
+
+
+}
+@enduml

@@ -1,0 +1,26 @@
+@startuml Admin
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Inventaire" as Admin
+
+rectangle "Store Manager" {
+
+  usecase "Se Connecter" as log
+ 
+  usecase "Gestion des enregistrement" as GS
+  usecase "Enregistrer un client" as ec
+  usecase "Enregistrer un produit" as ea
+  usecase "Enregistrer un fournisseur" as ef
+
+ 
+
+  Admin --> GS
+  GS ..> log:<<include>>
+  GS <.. ec:<<extend>>
+  GS <.. ea:<<extend>>
+  GS <.. ef:<<extend>>
+
+
+}
+@enduml

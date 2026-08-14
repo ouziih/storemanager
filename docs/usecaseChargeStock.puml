@@ -1,0 +1,35 @@
+@startuml Admin
+left to right direction
+skinparam packageStyle rectangle
+
+actor "charge Stock" as Admin
+
+rectangle "Store Manager" {
+  
+  
+  usecase "Se Connecter" as log
+  usecase "Receptionner un Appro" as recepA
+  usecase "lister Appro" as listA
+  usecase "Voir Lignes" as vrLA
+  usecase "Gestion des enregistrement" as GS
+  usecase "Enregistrer un client" as ec
+  usecase "Enregistrer un produit" as ea
+  usecase "Enregistrer un fournisseur" as ef
+
+ 
+
+
+
+  Admin --> recepA
+  recepA ..> log:<<include>>
+  recepA ..> listA:<<include>>
+  listA <.. vrLA:<<extend>>
+  Admin --> GS
+  GS ..> log:<<include>>
+  GS <.. ec:<<extend>>
+  GS <.. ea:<<extend>>
+  GS <.. ef:<<extend>>
+
+
+}
+@enduml
