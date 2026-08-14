@@ -1,0 +1,94 @@
+@startuml StoreManager_DiagrammeClasse
+
+enum RoleUtilisateur {
+  ADMIN
+  VENTE
+  STOCK
+  INVENTAIRE
+}
+
+class Utilisateur {
+  id 
+  nom
+  email
+  motDePasse
+}
+
+class Client {
+  id 
+  prenom
+  nom
+  telephone
+  email
+  limiteCredit
+}
+
+class Fournisseur {
+  id 
+  nom
+  telephone
+  adresse
+  email
+}
+
+class Produit {
+  id 
+  nom
+  prixVente
+  quantiteStock 
+}
+
+class Commande {
+  id 
+  dateCreation
+  montantTotal
+  montantVerse
+  modeReglement
+}
+
+class LigneCommande {
+  quantite 
+  prixUnitaire
+}
+
+class Dette {
+  id 
+  dateCreation
+  montantInitial
+  statut
+}
+
+class Paiement {
+  id 
+  date
+  montant
+  modePaiement
+}
+
+class Approvisionnement {
+  id 
+  referenceBL
+  dateCommande
+  statut
+}
+
+class LigneApprovisionnement {
+  quantiteCommandee 
+  quantiteRecue 
+  coutUnitaire 
+}
+
+Utilisateur "1" -- "0..*" Commande 
+Utilisateur "1" -- "0..*" Approvisionnement 
+Utilisateur "1" -- "1" RoleUtilisateur
+Client "1" -- "0..*" Commande 
+Commande "1" *-- "1..*" LigneCommande 
+LigneCommande "*" -- "1" Produit 
+Commande "1" -- "0..1" Dette 
+Dette "*" -- "1" Client 
+Dette "1" *-- "0..*" Paiement 
+Fournisseur "1" -- "0..*" Approvisionnement 
+Approvisionnement "1" *-- "1..*" LigneApprovisionnement 
+LigneApprovisionnement "*" -- "1" Produit 
+
+@enduml

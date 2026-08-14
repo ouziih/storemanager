@@ -1,0 +1,54 @@
+@startuml Admin
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Admin" as Admin
+
+rectangle "Store Manager" {
+  
+  usecase "Valider un BL" as valBL
+  usecase "Lister Stocks Critik" as lisCritik
+  usecase "Se Connecter" as log
+  usecase "Valider un vente" as valVT
+  usecase "lister vente" as listVT
+  usecase "Rembourser" as remb
+  usecase "listerDette" as listDet
+  usecase "voir Ligne" as vrL
+  usecase "voir Paiement" as vrP
+  usecase "voir Article" as vrA
+  usecase "Receptionner un Appro" as recepA
+  usecase "lister Appro" as listA
+  usecase "Voir Lignes" as vrLA
+  usecase "Gestion des enregistrement" as GS
+  usecase "Enregistrer un client" as ec
+  usecase "Enregistrer un produit" as ea
+  usecase "Enregistrer un fournisseur" as ef
+
+ 
+
+  Admin --> valBL
+  valBL ..> lisCritik:<<include>>
+  valBL ..> log:<<include>>
+  Admin --> valVT
+  Admin --> listVT
+  valVT ..> log:<<include>>
+  listVT ..> log:<<include>>
+  listVT <.. vrL:<<extend>>
+  Admin --> remb
+  remb ..> log:<<include>>
+  remb ..> listDet:<<include>>
+  listDet <.. vrP:<<extend>>
+  listDet <.. vrA:<<extend>>
+  Admin --> recepA
+  recepA ..> log:<<include>>
+  recepA ..> listA:<<include>>
+  listA <.. vrLA:<<extend>>
+  Admin --> GS
+  GS ..> log:<<include>>
+  GS <.. ec:<<extend>>
+  GS <.. ea:<<extend>>
+  GS <.. ef:<<extend>>
+
+
+}
+@enduml
