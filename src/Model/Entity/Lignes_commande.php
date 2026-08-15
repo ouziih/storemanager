@@ -11,12 +11,12 @@
 class Lignes_commande
 {
     private ?int $id = null;
-    private Commande $commande; 
+    private ?Commande $commande; 
     private Produit $produit;   
     private int $quantite;
     private float $prix_unitaire;
 
-    public function __construct(Commande $commande, Produit $produit, int $quantite, float $prix_unitaire, ?int $id = null)
+    public function __construct(?Commande $commande, Produit $produit, int $quantite, float $prix_unitaire, ?int $id = null)
     {
         $this->id = $id;
         $this->commande = $commande;

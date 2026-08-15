@@ -36,3 +36,10 @@ c'etait compliqué pour moi de comprendre l'opérateur de résolution de portée
 le principe de l'encapsulation n'est pas compliqué a comprendre bien vrai que les consequences en declarant une visibilité sont profondes mais dans l'ensemble l'idée de proteger et de controller l'acces est claire pour moi 
 seule les fonctions metiers m'ont paru compliqué car je ne savais pas qu'elle fonction mettre ou le mettre son role essentiel mais tout est claire maintenant 
 j'ai oublier de pousser le commit Singleton Database & Fallback Automatique  donc les deux pousser auront les memes heures mais ca ne s'est pas realisé en meme temps
+
+- **Heure de réalisation** : 14h - 18h
+- **Ce qui a été fait** : creation des repository : ClientRepository, FournisseurRepository et ProduitRepository
+- **Difficultés / Obstacles** : cette phase etait compliqué pour moi car j'ai rencontré les consequences des precedants concepts utilisés
+j'ai revu les relations entre bd et classe et en classe de description et repositorie 
+l'utilisation;
+Quand je me suis documenté sur le fallback j'avais pensé au moment d'inserer une donnée dans postgres on le synchronise j'ai callé sur comment le faire pendant 1h et quelque mais j'ai compris que l'objectif est graduel pour le moment on fait le mise en place a l'avenir on implementera la logique donc je me suis contenté de faire l'insertion et le update.
