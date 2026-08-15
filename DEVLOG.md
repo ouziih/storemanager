@@ -28,3 +28,11 @@ j'etais obligé de le voir un par un et de rater le delai.
 c'est a cette partie que j'ai reelemene compris pourquoi vous nous avez demandé d'utilisé sqlite et aussi que ce que j'avais fait pour le livrable precedant sur sqlite n'etait pas bonne mais je l'ai corrigé 
 j'ai compris les notions de fallback singleton mais je ne savais pas comment seront les deux bases c'est a dire si elles seront toujours synchro ou non 
 c'etait compliqué pour moi de comprendre l'opérateur de résolution de portée , le role de static et sa consequence 
+
+### ☀️ [Samedi - Phase 2] : POO, Repositories & Ventes POS
+- **Heure de réalisation** : 12h - 14h
+- **Ce qui a été fait** :  Entités POO Pure
+- **Difficultés / Obstacles** : je me suis rappelé de ce que vous disiez en classe c'est a dire qu'une clé etrangere est representée par un objet et j'ai appliqué ce principe mais le souci est de faire require par ci ou par la ce qui n'est propre je pars sur le principe de tout mettre dans index ou les repos
+le principe de l'encapsulation n'est pas compliqué a comprendre bien vrai que les consequences en declarant une visibilité sont profondes mais dans l'ensemble l'idée de proteger et de controller l'acces est claire pour moi 
+seule les fonctions metiers m'ont paru compliqué car je ne savais pas qu'elle fonction mettre ou le mettre son role essentiel mais tout est claire maintenant 
+j'ai oublier de pousser le commit Singleton Database & Fallback Automatique  donc les deux pousser auront les memes heures mais ca ne s'est pas realisé en meme temps
