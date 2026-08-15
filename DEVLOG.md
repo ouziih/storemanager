@@ -20,3 +20,11 @@ Voila les difficultés que j'ai rencontré en faisant le livrable Step 1.1 .
 - **Heure de réalisation** : 22h - 23h | 
 - **Ce qui a été fait** : Les scriptsSQL 
 - **Difficultés / Obstacles** : cette partie n'a pas etait difficile car je traduisais juste les classes en table mais je pense aux classes a réaliser
+
+- **Heure de réalisation** : 23h - 12h du lendemain
+- **Ce qui a été fait** : Singleton Database & Fallback Automatique 
+- **Difficultés / Obstacles** : en commencant cette partie j'ai compris qu'il y'avait beaucoup de concepts puissants cachés derrieres
+j'etais obligé de le voir un par un et de rater le delai.
+c'est a cette partie que j'ai reelemene compris pourquoi vous nous avez demandé d'utilisé sqlite et aussi que ce que j'avais fait pour le livrable precedant sur sqlite n'etait pas bonne mais je l'ai corrigé 
+j'ai compris les notions de fallback singleton mais je ne savais pas comment seront les deux bases c'est a dire si elles seront toujours synchro ou non 
+c'etait compliqué pour moi de comprendre l'opérateur de résolution de portée , le role de static et sa consequence 
