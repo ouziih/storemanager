@@ -43,3 +43,8 @@ j'ai oublier de pousser le commit Singleton Database & Fallback Automatique  don
 j'ai revu les relations entre bd et classe et en classe de description et repositorie 
 l'utilisation;
 Quand je me suis documenté sur le fallback j'avais pensé au moment d'inserer une donnée dans postgres on le synchronise j'ai callé sur comment le faire pendant 1h et quelque mais j'ai compris que l'objectif est graduel pour le moment on fait le mise en place a l'avenir on implementera la logique donc je me suis contenté de faire l'insertion et le update.
+
+**Heure de réalisation** : 11h - 2h du lendemain 
+- **Ce qui a été fait** :  POSController, Router, index.php, public/index.php
+- **Difficultés / Obstacles** : j'ai souffert aujourd'hui , en suivant le projet on ne nous demande pas de creer un router mais bon c'est logique qu'il en ai la realisation n'etait pas compliqué, mais apres cela , j'ai passé plus de 5h a debugger , j'ai eu des erreurs d'ordres de required, ecransement de donnée, autoload , serializer et deserializer et des erreurs sur l'ordre de creation d'une ligne commande dans la transaction 
+pour realiser le router apres avoir required un fichier et selectionné une methode l'appeler ma aussi posé probleme

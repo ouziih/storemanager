@@ -526,8 +526,9 @@
                             style="font-size: 11px; font-weight: 600; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 6px;">Terminal
                             POS</span>
                     </div>
-                    <form method="POST" action="http://localhost:8001">
+                    <form method="POST" action="/commande/save">
 
+                        <!-- 1. BLOC SÉLECTION CLIENT -->
                         <div class="form-group">
                             <label for="client_id">Client Acheteur</label>
                             <div style="position: relative;">
@@ -536,7 +537,7 @@
                                     <?php $clients = $datas["clients"] ?? [] ?>
                                     <?php foreach ($clients as $client): ?>
                                         <option value="<?= $client->getId() ?>" data-limit="<?= $client->getLimiteCredit() ?>">
-                                            <?= $client->getPrenom() ?> <?= $client->getNom() ?>
+                                            <?= $client->getPrenom() ?> <?= $client->getNom() ?> (Crédit max: <?= $client->getLimiteCredit() ?> F)
                                         </option>
                                     <?php endforeach ?>
                                 </select>
@@ -544,7 +545,8 @@
                             </div>
                         </div>
 
-                        <div style="border-top: 1px dashed var(--border-color); padding-top: 16px; margin-top: 16px; margin-bottom: 16px;">
+                        <!-- 2. BLOC SÉLECTION ARTICLES (AJOUT AU PANIER EN SESSION) -->
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; margin-bottom: 16px;">
                             <label style="font-size: 12px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 8px; text-transform: uppercase;">Sélection des Articles</label>
                             <div style="display: grid; grid-template-columns: 2.2fr 0.8fr auto; gap: 8px; align-items: flex-end; margin-bottom: 16px;">
 
@@ -555,7 +557,7 @@
                                         <?php $produits = $datas["produits"] ?? [] ?>
                                         <?php foreach ($produits as $produit): ?>
                                             <option value="<?= $produit->getId() ?>" data-price="<?= $produit->getPrixVente() ?>">
-                                                <?= $produit->getNom() ?> (Stock: <?= $produit->getQuantiteStock() ?>)
+                                                <?= $produit->getNom() ?> - <?= $produit->getPrixVente() ?> F (Stock: <?= $produit->getQuantiteStock() ?>)
                                             </option>
                                         <?php endforeach ?>
                                     </select>
@@ -570,9 +572,74 @@
                             </div>
                         </div>
 
+                        <!-- 3. BLOC PANIER DYNAMIQUE (AFFICHAGE DES ARTICLES ACCOUMULÉS) -->
+                        <div style="margin-top: 24px; margin-bottom: 24px;">
+                            <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 8px; text-transform: uppercase;">Contenu du Panier</label>
+                            <table class="debt-table" style="font-size: 12px; width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                                        <th style="padding-bottom: 8px;">Produit</th>
+                                        <th style="padding-bottom: 8px;">Qté</th>
+                                        <th style="padding-bottom: 8px;">P.U.</th>
+                                        <th style="padding-bottom: 8px; text-align: right;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-rows">
+                                    <?php $panier = SessionManager::getSession("panier") ?? []; ?>
+                                    <?php if (empty($panier)): ?>
+                                        <tr id="empty-cart-row">
+                                            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px 0;">
+                                                Panier vide. Ajoutez des articles pour commencer.
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach ($panier as $ligne): ?>
+                                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                                <td style="padding: 10px 0;"><?= $ligne->getProduit()->getNom() ?></td>
+                                                <td style="padding: 10px 0;"><?= $ligne->getQuantite() ?></td>
+                                                <td style="padding: 10px 0;"><?= $ligne->getPrixUnitaire() ?> F</td>
+                                                <td style="padding: 10px 0; text-align: right; font-weight: 600; color: var(--accent);"><?= $ligne->getSousTotal() ?> F</td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 4. PANNEAU D'AFFICHAGE DIGITAL DU TOTAL NET À PAYER -->
+                        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(30, 41, 59, 0.4) 100%); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 24px;">
+                            <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 4px;">Net à Payer</span>
+                            <span style="font-size: 32px; font-weight: 800; color: #3b82f6; font-family: monospace;">
+                                <?= number_format((float)(SessionManager::getSession("montant") ?? 0), 0, ',', ' ') ?> F CFA
+                            </span>
+                        </div>
+
+                        <!-- 5. BLOC RÈGLEMENT & VALIDATION FINALE (DML TRANSACTIONNEL) -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                            <div class="form-group">
+                                <label for="montantVerse">Montant Versé (Avance)</label>
+                                <input type="number" name="montantVerse" id="montantVerse" class="form-control" min="0" value="0" style="padding: 10px; font-size: 13px;" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reglement">Mode de Règlement</label>
+                                <select name="reglement" id="reglement" class="form-control" style="padding: 10px; font-size: 13px;" required>
+                                    <option value="Especes">Espèces</option>
+                                    <option value="Wave">Wave</option>
+                                    <option value="Orange Money">Orange Money</option>
+                                    <option value="Virement">Virement</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit" name="btnAction" value="save" style="width: 100%; padding: 14px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 10px; background-color: #10b981; color: white; border: none; cursor: pointer;">
+                            🚀 Valider la Vente (DML)
+                        </button>
+
                     </form>
+                   
 
                 </div>
+
 
                 <!-- Right side: Registry logs -->
                 <div class="panel-card" style="margin-bottom: 0;">

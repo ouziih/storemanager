@@ -33,4 +33,11 @@ class SessionManager
         session_unset();
         session_destroy();
     }
+
+    public static function init():void{
+        if (!isset($_SESSION['panier'])) {
+           $_SESSION['panier'] = [];
+            $_SESSION['montant'] = 0;
+        }
+    }
 };

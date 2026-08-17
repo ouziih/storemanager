@@ -1,11 +1,6 @@
-<!-- CREATE TABLE fournisseurs (
-    id              SERIAL PRIMARY KEY,
-    nom             VARCHAR(150) NOT NULL,
-    telephone       VARCHAR(30) NOT NULL,
-    adresse         VARCHAR(50) NOT NULL,
-    email           VARCHAR(50) 
-); -->
+
 <?php
+require_once dirname(__DIR__)."/Entity/Fournisseur.php";
 
 class FournisseurRepository
 {

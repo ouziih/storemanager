@@ -1,10 +1,13 @@
 <?php
 
+require_once dirname(__DIR__)."/Model/Entity/Lignes_commande.php";
+
+
 class VenteService{
     public static function addPanier(array $ligneForm):void{
-        $produit = ProduitRepository::findById($ligneForm['idproduit']);
-        if ($produit->getQuantiteStock() >= $ligneForm["qte"]) {
-               $ligneCommande = new Lignes_commande(null,$produit,$ligneForm['qte'],$ligneForm['prix']);
+        $produit = ProduitRepository::findById((int)$ligneForm['idproduit']);
+        if ($produit->getQuantiteStock() >= (int)$ligneForm["qte"]) {
+               $ligneCommande = new Lignes_commande(null,$produit,$ligneForm['qte'],$produit->getPrixVente());
         
         $montant = SessionManager::getSession("montant");
         $montant+=$ligneCommande->getPrixUnitaire()*$ligneCommande->getQuantite();
@@ -22,21 +25,21 @@ class VenteService{
     public static function saveCommande(array $lignesCommandes):void{
         $client = ClientRepository::findById($_POST["idclient"]);
         $utilisateur = SessionManager::getSession("currentUser");
-        $commande = new Commande($client,$utilisateur,date('Y-m-d'),SessionManager::getSession("montant"),$_POST['montantVerse'],$_POST["reglement"]);
+        $commande = new Commande($client,$utilisateur,SessionManager::getSession("montant"),(float)$_POST['montantVerse'],$_POST["reglement"],date('Y-m-d'));
         if ($commande->estUneDette() && $commande->getResteAPayer() > $client->getLimiteCredit()) {
             SessionManager::setSession("errors", "Limite de crédit dépassée !");
             return;
         }
         try {
             Database::getInstance()->beginTransaction();
-            $sql = "INSERT INTO commandes(client_id,utilisateur_id,date_creation,montant_initial,montant_verse,mode_reglement)
-                    VALUES(:client_id,:utilisateur_id,:date_creation,:montant_initial,:montant_verse,:mode_reglement)
+            $sql = "INSERT INTO commandes(client_id,utilisateur_id,date_creation,montant_total,montant_verse,mode_reglement)
+                    VALUES(:client_id,:utilisateur_id,:date_creation,:montant_total,:montant_verse,:mode_reglement)
                     ";
             $idCommande = Database::modify($sql,[
                 "client_id"=>$client->getId(),
                 "utilisateur_id"=>$utilisateur->getId(),
                 "date_creation"=>$commande->getDateCreation(),
-                "montant_initial"=>$commande->getMontantTotal(),
+                "montant_total"=>$commande->getMontantTotal(),
                 "montant_verse"=>$commande->getMontantVerse(),
                 "mode_reglement"=>$commande->getModeReglement()
             ]);

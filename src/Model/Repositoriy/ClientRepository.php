@@ -1,14 +1,7 @@
-<!-- CREATE TABLE clients (
-    id              SERIAL PRIMARY KEY,
-    prenom          VARCHAR(100) NOT NULL,
-    nom             VARCHAR(100) NOT NULL,
-    telephone       VARCHAR(30) NOT NULL,
-    email           VARCHAR(50) NOT NULL,
-    limite_credit   NUMERIC(12, 2) NOT NULL DEFAULT 0 CHECK (limite_credit >= 0)
-); -->
 
 <?php
 
+require_once dirname(__DIR__)."/Entity/Client.php";
 
 class ClientRepository
 {

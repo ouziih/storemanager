@@ -1,11 +1,15 @@
+
+
+<?php
+
 // CREATE TABLE produits (
 //     id              SERIAL PRIMARY KEY,
 //     nom             VARCHAR(50) NOT NULL,
 //     prix_vente      NUMERIC(12, 2) NOT NULL CHECK (prix_vente >= 0),
 //     quantite_stock  INTEGER NOT NULL DEFAULT 0 CHECK (quantite_stock >= 0)
 // );
+require_once dirname(__DIR__)."/Entity/Produit.php";
 
-<?php
 
 class ProduitRepository
 {
